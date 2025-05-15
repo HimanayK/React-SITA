@@ -1,4 +1,3 @@
-### reatPractice---------------------------------------
 ## Session 1: -----------------------------------------------------------------------------------------------------------
 npm create vite@latest
 npm install
@@ -7,7 +6,7 @@ imr = import React from 'react'
 
 
 ### 1. Inline Styling
->nav tag -> inline styling 
+>nav tag -> inline styling; 
 >anchor tag -> internal styling
 
 ```jsx
