@@ -129,9 +129,9 @@ createRoot(document.getElementById('root')).render(
 - Functional Component
 - Class Component
 - Nested Components
-- Git commands: 
-   - to create sub branch: git checkout -b branch-name
-   - push changes to sub branch: git push --set-upstream origin branch-name or write git push 
+- Git commands: to create sub branch:
+       - git checkout -b branch-name
+       - git push --set-upstream origin branch-name or write git push 
 
 
 ### Functional Component:
@@ -246,6 +246,368 @@ function App() {
 
 export default App
 ```
+
+## Session 3: -----------------------------------------------------------------------------------------------------------
+- How to pass data from one component to other component with primitive datatypes using props
+> React components use props to communicate with each other. Every parent component can pass some information to its child components by giving them props. 
+
+```jsx
+//Middle.jsx
+import React from 'react'
+import Footer from './Footer';
+
+function Middle(){
+    let data = 'JavaScript!!!!';
+    return(
+        <div>
+            <Footer message = {data}/>
+            </div>
+    )
+}
+
+export default Middle
+
+// --------------- OR --------------------------
+function Middle(){
+    return(
+        <div>
+            <Footer message = {'JavaScript!!!!'}/>
+            </div>
+    )
+}
+
+```
+```jsx
+//Footer.jsx
+import React from 'react'
+
+function Footer(props) {
+    return(
+        <div>
+            <h1>{props.message}</h1>
+        </div>
+    )
+}
+
+export default Footer
+
+//----------- OR -------------- //
+import React from 'react'
+
+function Footer({message}) {
+    return(
+        <div>
+            <h1>{message}</h1>
+        </div>
+    )
+}
+
+export default Footer
+```
+
+```jsx
+// App.jsx
+import React from 'react'
+import './App.css'
+import Middle from './Middle'
+
+function App() {
+  return (
+    <div id='app'>
+      <Middle />
+    </div>
+  )
+}
+
+export default App
+```
+```jsx
+// main.jsx
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.jsx'
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+```
+**Example2**
+```jsx
+// Middle.jsx
+import React from 'react'
+import Footer from './Footer';
+
+function Middle(){
+    return(
+        <div>
+            <Footer message = {'JavaScript!!!!'}
+            size = {100}
+            arr = {[1,2,3,4]}
+            />
+            </div>
+    )
+}
+
+export default Middle
+```
+
+```jsx
+// Footer.jsx
+import React from 'react'
+
+function Footer({message, size, arr}) {
+    return(
+        <div>
+            <h1>{message} {size} {arr}</h1>
+        </div>
+    )
+}
+
+export default Footer
+
+// ----------------------- OR ----------------------------
+import React from 'react'
+
+function Footer(props) {
+    return(
+        <div>
+            <h1>{props.message} {props.size} {props.arr}</h1>
+        </div>
+    )
+}
+```
+
+## Session 4: -----------------------------------------------------------------------------------------------------------
+- Conditional Rendering using ternary operator
+- How to iterate the dummy JSON data using map method and render them using components
+
+> Example1: conditional rendering of html tags
+```jsx
+// App.jsx
+import React from 'react'
+
+function App() {
+  let result = false;
+  return(
+    <div>
+      {
+        result ? <h1>I am true!!</h1> : <h2>I am false!!</h2>
+      }
+    </div>
+  )
+}
+
+export default App
+```
+
+```jsx
+//main.jsx
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.jsx'
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+```
+> Example2: conditional rendering of components
+
+```jsx
+import React from 'react'
+
+function Content() {
+  let contentStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'pink'
+  }
+  return(
+    <div style={contentStyle}>
+      <h1>I am Content!!! 🤗</h1>
+    </div>
+  )
+}
+
+export default Content
+```
+
+```jsx
+import React from 'react'
+
+function Header() {
+    return(
+        <div>
+            <h1>I am Header component!!! 😍</h1>
+        </div>
+    )
+}
+
+export default Header
+```
+```jsx
+import React from 'react'
+import Content from './Content';
+import Header from './Header';
+
+function App() {
+  let result = true;
+  return(
+    <div>
+      {
+        result ? <Content/> : <Header/>
+      }
+    </div>
+  )
+}
+
+export default App
+```
+> Example3: Iterate JSON data using map method and render the data using components
+```jsx
+//Users.jsx
+const users = [
+    {
+      "id": 1,
+      "name": "Alice Johnson",
+      "email": "alice@example.com",
+      "role": "Frontend Developer",
+      "location": "Stockholm, Sweden",
+      "image": "https://randomuser.me/api/portraits/women/1.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Bob Smith",
+      "email": "bob@example.com",
+      "role": "Backend Developer",
+      "location": "Gothenburg, Sweden",
+      "image": "https://randomuser.me/api/portraits/men/2.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Clara Lee",
+      "email": "clara@example.com",
+      "role": "UI/UX Designer",
+      "location": "Malmö, Sweden",
+      "image": "https://randomuser.me/api/portraits/women/3.jpg"
+    }
+  ]
+  
+  export default users
+```
+```jsx
+//App.jsx
+function App() {
+  let usersStyle = {
+    display: 'flex',
+    justifyContent: 'space-around', 
+  }
+  
+  return(
+    <div>
+      {
+       users.map((item) => {
+        return(
+          <div style={usersStyle}>
+            <h2>{item.id}</h2>
+            <h3>{item.name}</h3>
+            <h4>{item.email}</h4>
+            <h5>{item.role}</h5>
+            <p>{item.location}</p>
+            <img style={{marginBottom: '1rem'}} src={item.image} />
+          </div>
+        )
+       })
+      }
+    </div>
+  )
+}
+
+export default App
+```
+> Example3: Iterate JSON data using map method and render the data using different components
+
+```jsx
+//Content.jsx
+import React from 'react'
+import users from './Users'
+
+function Content(){
+  return(
+    <div style={{ backgroundColor: 'Pink', paddingBlock: '0.5rem', paddingLeft: '0.8rem' }}>
+      {users.map((user)=> {
+        return(
+          <div>
+          <h2>{user.id}</h2>
+          <h3>{user.name}</h3>
+          <h4>{user.email}</h4>
+        </div>
+        )
+      })
+     }
+    </div>
+  )
+}
+export default Content
+```
+```jsx
+//Middle.jsx
+import React from 'react'
+import users from './Users'
+
+function Middle() {
+  return (
+    <div>
+      {users.map((user) => {
+        return (
+          <div style={{backgroundColor: 'beige', paddingBlock: '0.5rem', paddingLeft: '0.8rem' }}>
+            <h5>{user.role}</h5>
+            <p>{user.location}</p>
+            <img src={user.image} />
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+export default Middle
+```
+
+```jsx
+//App.jsx
+import React from 'react'
+import Content from './Content';
+import Middle from './Middle';
+
+function App() {
+  return(
+    <div>
+      <Content/>
+      <Middle/>
+    </div>
+  )
+}
+export default App
+```
+
+
+## Session 5: -----------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
 
 
 ---

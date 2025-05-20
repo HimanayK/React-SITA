@@ -1,17 +1,13 @@
 import React from 'react'
-import './App.css'
-import Header from './Header'
-import Middle from './Middle'
-import Footer from './Footer'
+import Content from './Content';
+import Middle from './Middle';
 
 function App() {
-  return (
-    <div id='app'>
-      <Header />
-      <Middle />
-      <Footer />
+  return(
+    <div>
+      <Content/>
+      <Middle/>
     </div>
   )
 }
-
 export default App

@@ -1,18 +1,20 @@
 import React from 'react'
+import users from './Users'
 
-function Content() {
-    let contentStyle = {
-        color: 'green',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'yellow'
-    }
-  return (
-    <div style = {contentStyle}>
-        <h2>I am the content</h2>
+function Content(){
+  return(
+    <div style={{ backgroundColor: 'Pink', paddingBlock: '0.5rem', paddingLeft: '0.8rem' }}>
+      {users.map((user)=> {
+        return(
+          <div>
+          <h2>{user.id}</h2>
+          <h3>{user.name}</h3>
+          <h4>{user.email}</h4>
+        </div>
+        )
+      })
+     }
     </div>
   )
 }
-
 export default Content
