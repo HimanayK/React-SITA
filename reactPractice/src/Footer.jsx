@@ -1,10 +1,9 @@
 import React from 'react'
 
-function Footer() {
+function Footer(info) {
     return(
         <div>
-            <h1>I am Footer!!!!😁</h1>
-            <h1>I am Footer!!!!😁</h1>
+            <h1>{info.message} {info.size} {info.arr}</h1>
         </div>
     )
 }
