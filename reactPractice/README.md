@@ -600,9 +600,260 @@ export default App
 
 ## Session 5: -----------------------------------------------------------------------------------------------------------
 
+> **Conditional rendering** using if else statement
+ ```jsx
+ //Example 1:
+ import React from 'react'
+
+function Content() {
+  let result = false;
+  let output;
+
+  if(result) {
+    output = <h2>I am True</h2>
+  } else {
+    output = <h2>I am false</h2>
+  }
+  return(
+    <div>
+      {output}
+    </div>
+  )
+}
+
+export default Content
+ ```
+ ```jsx
+ // Example 2
+ import React from "react";
+
+function Content() {
+  let a = 20;
+  let b = 30;
+  let c = 100;
+  let output;
+  if (a > b && a > c) {
+    output = <h2>A is bigger</h2>;
+  } else if (b > a && b > c) {
+    output = <h2>b is bigger</h2>;
+  } else {
+    output = <h2>c is bigger</h2>;
+  }
+  return (
+    <div>{output}</div>
+  ) 
+}
+
+export default Content;
+ ```
+
+### useState:
+>> useState lets you add a state variable to your component. Updating state based on the previous state Syntax: const [state, setState] = useState(initialState)
+> Update the variable dynamically
+```jsx
+import React, { useState } from 'react'
+
+function Content() {
+  const [color, setColor] = useState('red 😍');
+
+  return(
+    <div>
+      <h1>I am a {color}.</h1>
+      <button onClick={()=>{setColor('yellow 😁')}}>Change Color</button>
+    </div>
+  )
+}
+
+export default Content
+```
+>Example2: Counter
+```jsx
+import React, { useState } from 'react'
+
+function Content() {
+  let [count, setCount] = useState(0)
+  return (
+    <div>
+      <h1>{count}</h1>
+      <button onClick={()=>{setCount(++count)}}>Increment</button>
+      <button onClick={()=>{setCount(--count)}}>Decrement</button>
+    </div>
+  )
+}
+
+export default Content
+
+```
+### useEffect: 
+to handle side effects in functional components such as fetching data and updating DOM. Syntax: useEffect(setup, dependencies?)
+- The **dependency array** in the useEffect hook is necessary to control when the effect should run and prevent unnecessary re-renders. By specifying the dependencies, we tell React to only re-run the effect when the dependencies have changed.
+- This hook runs on every render but there is also a way of using a dependency array, through which we can control the effect of rendering.
+>***useEffect*** in React can **control or restrict API calls** depending on how it's implemented. Here's how it works:
+
+### 1. *Restricting API Calls to Once on Mount*
+
+To make an API call only once when the component mounts:
+
+jsx
+useEffect(() => {
+  // API call here
+}, []);
 
 
+The empty dependency array ([]) ensures the effect runs only once, similar to componentDidMount.
 
+---
+
+### 2. *Making API Calls on Specific Changes*
+
+You can control when the API call happens by specifying dependencies:
+
+jsx
+useEffect(() => {
+  // API call here
+}, [userId]); // Only runs when userId changes
+
+
+---
+
+### 3. *Avoiding Unnecessary Calls*
+
+Use conditions inside useEffect to prevent calls:
+
+jsx
+useEffect(() => {
+  if (!shouldFetch) return;
+
+  // API call here
+}, [shouldFetch]);
+
+> **Example: API call happens when it is required only**
+```jsx
+import React, { useEffect, useState } from 'react'
+
+function Content() {
+  let [products, setProducts] = useState([]);
+  console.log(products);
+  function fetchData() {
+    fetch('https://fakestoreapi.com/products')
+    .then(response => response.json())
+    .then(data => setProducts(data));
+  }
+
+  useEffect(() => {
+    fetchData()
+  },[])
+  
+  return (
+    <div>
+      {
+        products.map((product) =>{
+          return(
+            <div>
+              <h2>{product.id}</h2>
+            </div>
+          )
+        })
+      }
+    </div>
+  )
+}
+
+export default Content
+```
+
+## Session 5: -----------------------------------------------------------------------------------------------------------
+### useRef: 
+change the variable data without rendering/refreshing the page
+- **useRef hook** returns a mutable object with a .current property that you can use to store a value or reference to a DOM element
+- Unlike state, updating a `useRef` value does not trigger a component re-render.
+- Uses: Accessing DOM Elements; Persisting Values Across Renders; and Storing Previous State Values
+
+1. **Presisting value accross render**
+> Example1: 
+-The `useRef` hook is used to persist/track a value across renders without causing a re-render when the value changes. 
+```jsx
+import React, { useEffect, useRef, useState } from 'react'
+
+function Content() {
+    let [count, setCount] = useState(0);
+    let value = useRef(0);
+    console.log(value.current)
+
+    useEffect(() => {
+        value.current = value.current + 1;
+    })
+
+    return(
+        <div>
+            <button onClick={()=>{setCount(--count)}}>-1</button>
+            <h2>{count}</h2>
+            <button onClick={(()=>{setCount(++count)})}>+1</button>
+            <h3>Rendered {value.current} times</h3>
+        </div>
+    )
+}
+
+export default Content
+
+////use useEffect hook without dependency array: Inside the `useEffect` hook, `value.current` is incremented every time the component renders.  This does not trigger another re-render, making it efficient for tracking purposes.
+```
+---
+2. **Access DOM** using useRef
+>Example1:
+```jsx
+import React, { useRef } from "react";
+
+const Content = () => {
+  let data = useRef();
+  let ticket = useRef();
+
+  function click() {
+    console.log(data.current);
+    console.log(ticket.current.textContent);
+  }
+
+  return (
+    <div>
+      <h1 ref={data}>I am accesing DOM</h1>
+      <h2 ref={ticket}>I am also accessing DOM!!!!</h2>
+      <button onClick={click}>Click</button>
+    </div>
+  );
+};
+
+export default Content;
+```
+![alt text](image-2.png)
+---
+> Example2: 
+
+```jsx
+import React, { useRef } from "react";
+
+const Content = () => {
+  let data = useRef();
+
+  return (
+    <div>
+      <h1 ref={data}>I am accesing DOM</h1>
+      <button
+        onClick={() => {
+          console.log(data);
+          console.log(data.current);
+          console.log(data.current.textContent);
+        }}
+      >
+        Click
+      </button>
+    </div>
+  );
+};
+
+export default Content;
+```
+![alt text](image-1.png)
+---
 
 
 
